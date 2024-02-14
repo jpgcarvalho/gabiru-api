@@ -11,7 +11,7 @@ export class PostService implements IPostService {
     this.postRepository = new PostRepository();
   }
 
-  async delete(id: number): Promise<boolean> {
+  async delete(id: string): Promise<boolean> {
 
     const response = await this.postRepository.delete(id);
 

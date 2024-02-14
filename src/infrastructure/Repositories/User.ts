@@ -26,7 +26,7 @@ export class UserRepository implements IUserRepository {
     return response;
   }
 
-  async getOneById(id: number): Promise<User | null> {
+  async getOneById(id: string): Promise<User | null> {
     const response = await this.database.findUnique({
       where: {
         id
@@ -58,7 +58,7 @@ export class UserRepository implements IUserRepository {
     return response;
   }
 
-  async update(userId: number, user: Prisma.UserUpdateInput): Promise<boolean> {
+  async update(userId: string, user: Prisma.UserUpdateInput): Promise<boolean> {
 
     const response = await this.database.update({
       where: { id: userId },
@@ -70,7 +70,7 @@ export class UserRepository implements IUserRepository {
     return !!response;
   }
 
-  async delete(userId: number): Promise<boolean> {
+  async delete(userId: string): Promise<boolean> {
     const response = await this.database.delete({
       where: {
         id: userId

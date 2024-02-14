@@ -27,21 +27,21 @@ export class UserService implements IUserService {
     return response;
   }
 
-  async deleteUser(userId: number): Promise<boolean> {
+  async deleteUser(userId: string): Promise<boolean> {
 
     const response = await this.userRepository.delete(userId);
 
     return response;
   }
 
-  async updateUser(userId: number, user: Prisma.UserUpdateInput): Promise<boolean> {
+  async updateUser(userId: string, user: Prisma.UserUpdateInput): Promise<boolean> {
 
     const response = await this.userRepository.update(userId, user);
 
     return response;
   }
 
-  async getUserById(userId: number): Promise<User | null> {
+  async getUserById(userId: string): Promise<User | null> {
 
     const response = await this.userRepository.getOneById(userId);
 

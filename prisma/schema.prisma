@@ -6,24 +6,75 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String? 
+  title     String
+  content   String?
   published Boolean  @default(false)
   author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
+  authorId  String   @db.ObjectId
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  posts     Post[]
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  email    String    @unique
+  password String
+  name     String?
+  posts    Post[]
+  isAdmin  Boolean   @default(false)
+  isActive Boolean   @default(true)
+  Routine  Routine[]
+}
+
+model Exercise {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  description   String?
+  muscularGroup EMuscularGroup
+  Workout       Workout[]
+}
+
+model Routine {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  observations String
+  user         User      @relation(fields: [userId], references: [id])
+  userId       String    @db.ObjectId
+  createdAt    DateTime  @default(now())
+  Workout      Workout[]
+}
+
+model Workout {
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  series     Int
+  reps       Int
+  day        EDayOfWeek
+  exercise   Exercise   @relation(fields: [exerciseId], references: [id])
+  exerciseId String     @db.ObjectId
+  routine    Routine    @relation(fields: [routineId], references: [id])
+  routineId  String     @db.ObjectId
+}
+
+enum EDayOfWeek {
+  sunday
+  monday
+  tuesday
+  wednesday
+  thursday
+  friday
+  saturday
+}
+
+enum EMuscularGroup {
+  back
+  chest
+  arms
+  legs
+  shoulders
 }

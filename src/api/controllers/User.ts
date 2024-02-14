@@ -18,7 +18,7 @@ export class UserController {
     return res.status(200).json(result);
   }
 
-  public async createUser(req: Request, res: Response) {
+  public async createUser(req: Request<unknown, unknown, Prisma.UserCreateInput, unknown>, res: Response) {
 
     const user = req.body;
 
@@ -27,32 +27,32 @@ export class UserController {
     return res.status(200).json(result);
   }
 
-  public async deleteUser(req: Request<{ id: number }, unknown, unknown, number>, res: Response) {
+  public async deleteUser(req: Request<{ id: string }, unknown, unknown, number>, res: Response) {
 
     const { params } = req;
 
-    const result = await this.userService.deleteUser(Number(params.id));
+    const result = await this.userService.deleteUser(params.id);
 
     return res.status(200).json(result);
 
   }
 
-  public async updateUser(req: Request<{ id: number }, unknown, Prisma.UserUpdateInput, unknown>, res: Response) {
+  public async updateUser(req: Request<{ id: string }, unknown, Prisma.UserUpdateInput, unknown>, res: Response) {
 
     const corpo = req.body;
     const { id } = req.params
 
-    const result = await this.userService.updateUser(Number(id), corpo);
+    const result = await this.userService.updateUser(id, corpo);
 
     return res.status(200).json(result);
 
   }
 
-  public async getUserById(req: Request<{ id: number }, unknown, unknown, unknown>, res: Response) {
+  public async getUserById(req: Request<{ id: string }, unknown, unknown, unknown>, res: Response) {
 
     const { id } = req.params;
 
-    const result = await this.userService.getUserById(Number(id));
+    const result = await this.userService.getUserById(id);
 
     return res.status(200).json(result);
 

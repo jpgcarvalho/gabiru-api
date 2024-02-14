@@ -10,7 +10,7 @@ export class PostRepository implements IPostRepository {
     this.database = databaseClient.post
   }
 
-  async delete(id: number): Promise<boolean> {
+  async delete(id: string): Promise<boolean> {
     const response = await this.database.delete({
       where: {
         id

@@ -23,10 +23,10 @@ export class PostController {
     return res.status(200).json(result);
   }
 
-  public async deletePost(req: Request<{ id: number }, unknown, unknown>, res: Response) {
+  public async deletePost(req: Request<{ id: string }, unknown, unknown>, res: Response) {
     const { id } = req.params;
 
-    const result = await this.postService.delete(Number(id));
+    const result = await this.postService.delete(id);
 
     return res.status(200).json(result);
 
