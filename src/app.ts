@@ -3,6 +3,7 @@ import userRoutes from "./api/routes/User.routes";
 import postRoutes from "./api/routes/Post.routes";
 import exerciseRoutes from "./api/routes/Exercises.routes";
 import routineRoutes from "./api/routes/Routines.routes";
+import authRoutes from "./api/routes/Auth.routes";
 
 export class App {
   public server: express.Application;
@@ -22,5 +23,6 @@ export class App {
     this.server.use("/post", postRoutes);
     this.server.use("/exercise", exerciseRoutes);
     this.server.use("/routine", routineRoutes);
+    this.server.use("/auth", authRoutes);
   }
 }

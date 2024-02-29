@@ -1,9 +1,12 @@
 import { Router } from "express";
 import { RoutineController } from "../controllers/Routine";
+import authenticateToken from "../../business/Settings/Auth/AuthMiddleware";
 
 const router: Router = Router();
 
 const routineController = new RoutineController();
+
+router.use(authenticateToken);
 
 router.get("/", routineController.getAllRoutines.bind(routineController));
 
