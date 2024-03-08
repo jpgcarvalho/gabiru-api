@@ -4,6 +4,7 @@ import { IAuthService } from "../Interfaces/Services/IAuth";
 import { GenerateToken } from "../Settings/Auth/GenerateToken";
 import SignInUserType from "../Settings/Auth/SignInUserType";
 import UserTokenType from "../Settings/Auth/UserTokenType";
+import ComparePassword from "../Settings/Crypt/ComparePassword";
 
 export class AuthService implements IAuthService {
   userRepository: IUserRepository;
@@ -17,7 +18,9 @@ export class AuthService implements IAuthService {
 
     if(!user) return user;
 
-    if(user.password !== signInUser.password) return null;
+    const result  = await ComparePassword(signInUser.password, user.password)
+
+    if(!result) return null;
 
     const userToken : UserTokenType = {
       id: user.id,

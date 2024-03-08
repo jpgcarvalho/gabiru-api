@@ -2,6 +2,7 @@ import { User, Prisma } from "@prisma/client";
 import { UserRepository } from "../../infrastructure/Repositories/User";
 import { IUserRepository } from "../Interfaces/Repository/IUser";
 import { IUserService } from "../Interfaces/Services/IUser";
+import EncryptUserPassword from "../Settings/Crypt/EncryptUserPassword";
 
 export class UserService implements IUserService {
 
@@ -12,11 +13,9 @@ export class UserService implements IUserService {
     this.userRepository = new UserRepository()
   }
 
-
   async createUser(data: Prisma.UserCreateInput): Promise<User | null> {
-
-    const response = await this.userRepository.create(data);
-
+    const hashedUser = await EncryptUserPassword(data);
+    const response = await this.userRepository.create(hashedUser);
     return response;
   }
 
