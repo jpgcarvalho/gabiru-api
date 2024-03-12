@@ -6,34 +6,45 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Post {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(uuid()) @db.Uuid
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   title     String
   content   String?
   published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String   @db.ObjectId
+  author    Personal @relation(fields: [authorId], references: [id])
+  authorId  String   @db.Uuid
 }
 
-model User {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+model Client {
+  id       String    @id @default(uuid()) @db.Uuid
+  email    String   @unique
+  password String?
+  name     String?
+  isActive Boolean   @default(true)
+  Routine  Routine[]
+  key      String?
+  Personal     Personal  @relation(fields: [personalId], references: [id])
+  personalId   String    @db.Uuid
+}
+
+model Personal {
+  id       String    @id @default(uuid()) @db.Uuid
   email    String    @unique
   password String
   name     String?
   posts    Post[]
-  isAdmin  Boolean   @default(false)
-  isActive Boolean   @default(true)
   Routine  Routine[]
+  Client  Client[]
 }
 
 model Exercise {
-  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  id            String         @id @default(uuid()) @db.Uuid
   title         String
   description   String?
   muscularGroup EMuscularGroup
@@ -41,25 +52,34 @@ model Exercise {
 }
 
 model Routine {
-  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  id           String    @id @default(uuid()) @db.Uuid
   title        String
   observations String?
-  user         User      @relation(fields: [userId], references: [id])
-  userId       String    @db.ObjectId
+  client       Client    @relation(fields: [clientId], references: [id])
+  clientId     String    @db.Uuid
+  Personal     Personal  @relation(fields: [personalId], references: [id])
+  personalId   String    @db.Uuid
   createdAt    DateTime  @default(now())
+  TrainingDay  TrainingDay[]
+}
+
+model TrainingDay {
+  id           String     @id @default(uuid()) @db.Uuid
+  day          EDayOfWeek
+  routine      Routine    @relation(fields: [routineId], references: [id])
+  routineId    String     @db.Uuid
   Workout      Workout[]
 }
 
 model Workout {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  id           String     @id @default(uuid()) @db.Uuid
   series       Int
   reps         Int
   observations String?
-  day          EDayOfWeek
   exercise     Exercise   @relation(fields: [exerciseId], references: [id])
-  exerciseId   String     @db.ObjectId
-  routine      Routine    @relation(fields: [routineId], references: [id])
-  routineId    String     @db.ObjectId
+  exerciseId   String     @db.Uuid
+  trainingDay  TrainingDay[]
+  routineId    String     @db.Uuid
 }
 
 enum EDayOfWeek {

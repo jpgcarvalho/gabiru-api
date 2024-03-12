@@ -1,5 +1,5 @@
-import { UserRepository } from "../../infrastructure/Repositories/User";
-import { IUserRepository } from "../Interfaces/Repository/IUser";
+import { ClientRepository } from "../../infrastructure/Repositories/Client";
+import { IClientRepository } from "../Interfaces/Repository/IClient";
 import { IAuthService } from "../Interfaces/Services/IAuth";
 import { GenerateToken } from "../Settings/Auth/GenerateToken";
 import SignInUserType from "../Settings/Auth/SignInUserType";
@@ -7,28 +7,28 @@ import UserTokenType from "../Settings/Auth/UserTokenType";
 import ComparePassword from "../Settings/Crypt/ComparePassword";
 
 export class AuthService implements IAuthService {
-  userRepository: IUserRepository;
+  clientRepository: IClientRepository;
 
   constructor() {
-    this.userRepository = new UserRepository()
+    this.clientRepository = new ClientRepository()
   }
-  async login(signInUser: SignInUserType): Promise<string | null>{
+  async login(signInClient: SignInUserType): Promise<string | null>{
 
-    const user = await this.userRepository.getOneByEmail(signInUser.email);
+    const client = await this.clientRepository.getOneByEmail(signInClient.email);
 
-    if(!user) return user;
+    if(!client) return client;
 
-    const result  = await ComparePassword(signInUser.password, user.password)
+    const result  = await ComparePassword(signInClient.password, client.password!)
 
     if(!result) return null;
 
-    const userToken : UserTokenType = {
-      id: user.id,
-      email: user.email,
-      isActive: user.isActive
+    const clientToken : UserTokenType = {
+      id: client.id,
+      email: client.email,
+      isActive: client.isActive
     }
 
-    let token = GenerateToken(userToken);
+    let token = GenerateToken(clientToken);
 
     return token;
   }

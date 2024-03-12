@@ -1,4 +1,4 @@
-import { Exercise, Prisma, User } from "@prisma/client";
+import { Exercise, Prisma, Client } from "@prisma/client";
 import { databaseClient } from "../prismaClient";
 import { IExerciseRepository } from "../../business/Interfaces/Repository/IExercise";
 

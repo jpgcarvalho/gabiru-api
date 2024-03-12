@@ -6,7 +6,7 @@ const router: Router = Router();
 
 const routineController = new RoutineController();
 
-router.use(authenticateToken);
+/* router.use(authenticateToken); */
 
 router.get("/", routineController.getAllRoutines.bind(routineController));
 

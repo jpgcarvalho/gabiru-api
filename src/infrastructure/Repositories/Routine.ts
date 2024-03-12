@@ -27,7 +27,7 @@ export class RoutineRepository implements IRoutineRepository {
         id
       },
       include: {
-        user: true
+        client: true
       }
 
     })

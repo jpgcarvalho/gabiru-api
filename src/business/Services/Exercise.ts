@@ -5,13 +5,11 @@ import { IExerciseRepository } from "../Interfaces/Repository/IExercise";
 
 export class ExerciseService implements IExerciseService {
 
-
   exerciseRepository: IExerciseRepository;
 
   constructor() {
     this.exerciseRepository = new ExerciseRepository()
   }
-
 
   async createExercise(data: Prisma.ExerciseCreateInput): Promise<Exercise | null> {
 
@@ -47,6 +45,4 @@ export class ExerciseService implements IExerciseService {
 
     return response;
   }
-
-
 }
