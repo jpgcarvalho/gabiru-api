@@ -12,10 +12,10 @@ router.post("/", personalController.create.bind(personalController));
 // TODO: Adicionar middleware de autenticação
 router.delete("/:id", personalController.delete.bind(personalController));
 
-router.put("/:id",/*  authenticateToken, */ personalController.update.bind(personalController));
+router.put("/:id", authenticateToken,  personalController.update.bind(personalController));
 
-router.get("/email", /* authenticateToken, */ personalController.getByEmail.bind(personalController));
+router.get("/email", authenticateToken, personalController.getByEmail.bind(personalController));
 
-router.get("/:id", /* authenticateToken, */ personalController.getById.bind(personalController));
+router.get("/:id", authenticateToken, personalController.getById.bind(personalController));
 
 export default router;

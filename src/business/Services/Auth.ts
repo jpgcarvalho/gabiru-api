@@ -1,5 +1,7 @@
 import { ClientRepository } from "../../infrastructure/Repositories/Client";
+import { PersonalRepository } from "../../infrastructure/Repositories/Personal";
 import { IClientRepository } from "../Interfaces/Repository/IClient";
+import { IPersonalRepository } from "../Interfaces/Repository/IPersonal";
 import { IAuthService } from "../Interfaces/Services/IAuth";
 import { GenerateToken } from "../Settings/Auth/GenerateToken";
 import SignInUserType from "../Settings/Auth/SignInUserType";
@@ -7,31 +9,31 @@ import UserTokenType from "../Settings/Auth/UserTokenType";
 import ComparePassword from "../Settings/Crypt/ComparePassword";
 
 export class AuthService implements IAuthService {
-  clientRepository: IClientRepository;
+  personalRepository: IPersonalRepository;
 
   constructor() {
-    this.clientRepository = new ClientRepository()
+    this.personalRepository = new PersonalRepository()
   }
-  async login(signInClient: SignInUserType): Promise<string | null>{
+  async login(signInUser: SignInUserType): Promise<string | null>{
 
-    const client = await this.clientRepository.getOneByEmail(signInClient.email);
+    const user = await this.personalRepository.getOneByEmail(signInUser.email);
 
-    if(!client) return client;
+    if(!user) return user;
 
-    const result  = await ComparePassword(signInClient.password, client.password!)
+    const result  = await ComparePassword(signInUser.password, user.password!)
 
     if(!result) return null;
 
-    const clientToken : UserTokenType = {
-      id: client.id,
-      email: client.email,
-      isActive: client.isActive
+    const userToken : UserTokenType = {
+      id: user.id,
+      email: user.email,
     }
 
-    let token = GenerateToken(clientToken);
+    let token = GenerateToken(userToken);
 
     return token;
   }
+  
   logout(): Promise<boolean> {
     throw new Error("Method not implemented.");
   }

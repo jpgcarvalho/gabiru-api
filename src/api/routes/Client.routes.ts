@@ -5,17 +5,18 @@ import authenticateToken from "../../business/Settings/Auth/AuthMiddleware";
 const router: Router = Router();
 
 const clientController = new ClientController();
+router.use(authenticateToken);
 
-router.get("/", /* authenticateToken, */ clientController.getAll.bind(clientController));
+router.get("/",  clientController.getAll.bind(clientController));
 
 router.post("/", clientController.create.bind(clientController));
-// TODO: Add authentication middleware
+
 router.delete("/:id", clientController.delete.bind(clientController));
 
-router.put("/:id",/*  authenticateToken, */ clientController.update.bind(clientController));
+router.put("/:id",  clientController.update.bind(clientController));
 
-router.get("/email", /* authenticateToken, */ clientController.getByEmail.bind(clientController));
+router.get("/email",  clientController.getByEmail.bind(clientController));
 
-router.get("/:id",/*  authenticateToken, */ clientController.getById.bind(clientController));
+router.get("/:id", clientController.getById.bind(clientController));
 
 export default router;

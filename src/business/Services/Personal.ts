@@ -13,7 +13,8 @@ export class PersonalService implements IPersonalService {
   }
 
   async create(data: Prisma.PersonalCreateInput): Promise<Personal | null> {
-    // const hashedPersonal = await EncryptUserPassword(data);
+    const hashedPersonal = await EncryptUserPassword(data.password);
+    data.password = hashedPersonal;
     const response = await this.personalRepository.create(data);
     return response;
   }

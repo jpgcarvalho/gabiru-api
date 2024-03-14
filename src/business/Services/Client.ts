@@ -13,7 +13,7 @@ export class ClientService implements IClientService {
   }
 
   async create(data: Prisma.ClientCreateInput): Promise<Client | null> {
-    // const hashedClient = await EncryptUserPassword(data);
+    // TODO gerar key
     const response = await this.clientRepository.create(data);
     return response;
   }

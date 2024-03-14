@@ -3,7 +3,7 @@ import UserTokenType from "./UserTokenType";
 
 
 export function GenerateToken(userToken: UserTokenType): string {
-    var token = jwt.sign({ email: userToken.email, isActive: userToken.isActive }, process.env.SECRET!, {
+    var token = jwt.sign({ id: userToken.id, email: userToken.email }, process.env.SECRET!, {
         expiresIn: 3000 
       });
       return token;

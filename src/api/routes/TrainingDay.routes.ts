@@ -6,7 +6,7 @@ const router: Router = Router();
 
 const trainingDayController = new TrainingDayController();
 
-/* router.use(authenticateToken); */
+router.use(authenticateToken);
 
 router.get("/", trainingDayController.getAllTrainingDays.bind(trainingDayController));
 

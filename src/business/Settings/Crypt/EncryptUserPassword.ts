@@ -1,10 +1,10 @@
 import { Prisma } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
-async function EncryptUserPassword(client: Prisma.ClientCreateInput): Promise<Prisma.ClientCreateInput> {
+async function EncryptUserPassword(password: string): Promise<string> {
   const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(client.password!, salt);
-  client.password = hashedPassword;
-  return client;
+  const hashedPassword = await bcrypt.hash(password, salt);
+  password = hashedPassword;
+  return password;
 }
 export default EncryptUserPassword;

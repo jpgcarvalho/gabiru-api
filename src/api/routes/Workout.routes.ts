@@ -1,9 +1,12 @@
 import { Router } from "express";
 import { WorkoutController } from "../controllers/Workout";
+import authenticateToken from "../../business/Settings/Auth/AuthMiddleware";
 
 const router: Router = Router();
 
 const workoutController = new WorkoutController();
+
+router.use(authenticateToken);
 
 router.get("/", workoutController.getAllWorkouts.bind(workoutController));
 

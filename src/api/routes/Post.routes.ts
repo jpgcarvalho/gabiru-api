@@ -6,7 +6,7 @@ const router: Router = Router();
 
 const postController = new PostController();
 
-/* router.use(authenticateToken); */
+router.use(authenticateToken);
 
 router.get("/", postController.getAllPosts.bind(postController));
 router.post("/", postController.createPost.bind(postController));
