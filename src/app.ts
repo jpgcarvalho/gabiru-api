@@ -9,6 +9,7 @@ import trainingDayRoutes from "./api/routes/TrainingDay.routes";
 import workoutRoutes from "./api/routes/Workout.routes";
 import createHttpError from "http-errors";
 import { errorMiddleware } from "./api/middlewares/errorMiddleware";
+import { streamMiddleware } from "./api/middlewares/streamMiddleware";
 
 export class App {
   public server: express.Application;
@@ -17,6 +18,8 @@ export class App {
     this.server = express();
     this.middleware();
     this.router();
+
+    this.server.use(streamMiddleware);
 
     this.server.use((req, res, next) => {
       next(createHttpError(404));
